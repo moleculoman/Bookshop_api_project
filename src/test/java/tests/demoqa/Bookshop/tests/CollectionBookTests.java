@@ -15,7 +15,7 @@ import static io.qameta.allure.Allure.step;
 import static tests.demoqa.Bookshop.api.BooksApi.*;
 import static tests.demoqa.Bookshop.tests.TestData.userId;
 
-@Tag("Bookshop_delete_test")
+@Tag("Bookshop_test")
 @DisplayName("Тесты на удаление книг")
 public class CollectionBookTests extends TestBase {
 

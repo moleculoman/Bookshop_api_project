@@ -94,8 +94,8 @@ task reqresTests(type: Test) {
         includeTags("ReqresTests")
     }
 }
-task bookshop_delete_test(type: Test) {
+task bookshop_test(type: Test) {
     useJUnitPlatform {
-        includeTags("Bookshop_delete_test")
+        includeTags("Bookshop_test")
     }
 }
