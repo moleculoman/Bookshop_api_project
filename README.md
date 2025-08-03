@@ -1,12 +1,11 @@
 
 <p align="center">
-  <a href="https://x5.tech/" target="_blank">
-    <img src="media/logo/Logo.svg" width="200" alt="X5Tech Logo">
+  <a href="https://demoqa.com/books" target="_blank">
+    <img src="media/logo/Logo.jpg" width="200" alt="Bookshop_logo">
   </a>
 </p>
 
 # Проект по автоматизации тестовых сценариев для сайта [Bookstore](https://demoqa.com/books)
-
 ## Содержание
 - [Технологический стек](#-технологический-стек)
 - [Web-тесты](#-web-тесты)
@@ -109,21 +108,14 @@
 
 ### Локальный запуск
 ```bash
-gradle clean bookshop_test
+gradle clean bookshop_test -Denv=local 
 ```
 
 
 ### Удаленный запуск (Jenkins)
 
 ```bash
-clean
-${TASKS}
--DSELENOID_URL=${SELENOID_URL}
--DSELENOID_LOGIN=${SELENOID_LOGIN}
--DSELENOID_PASSWORD=${SELENOID_PASSWORD}
--Dbrowser=${BROWSER}
--Dbrowser.version=${BROWSER_VERSION}
--Dbrowser.size=${BROWSER_SIZE}
+gradle clean bookshop_test -Denv=remote
 ```
 
 

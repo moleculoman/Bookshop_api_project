@@ -1,4 +1,4 @@
-package tests.demoqa.Bookshop.config;
+package tests.demoqa.Bookshop.config.web;
 
 import org.aeonbits.owner.Config;
 
@@ -23,5 +23,6 @@ public interface WebConfig extends Config {
     @DefaultValue("false")
     boolean isRemote();
     @Key("remoteUrl")
+    @DefaultValue("https://user1:1234@selenoid.autotests.cloud/wd/hub")
     String remoteUrl();
 }
