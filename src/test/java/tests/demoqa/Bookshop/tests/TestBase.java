@@ -5,10 +5,12 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import tests.demoqa.Bookshop.config.WebConfig;
 
 import java.util.Map;
 
@@ -20,30 +22,36 @@ public class TestBase {
     public static final String LOGIN_END_POINT = "/Account/v1/Login";
     public static final String GENERATE_TOKEN_END_POINT = "/Account/v1/GenerateToken";
 
-
+    /*
     static String SELENOID_URL = System.getProperty("selenoid.url");
     static String SELENOID_LOGIN = System.getProperty("selenoid.login");
     static String SELENOID_PASSWORD = System.getProperty("selenoid.password");
+    */
+
+    private static final WebConfig webConfig = ConfigFactory.create(WebConfig.class, System.getProperties());
 
     @BeforeAll
     public static void beforeAll() {
+        Configuration.baseUrl = webConfig.baseUrl();
+        Configuration.browser = webConfig.browser().toString();
+        Configuration.browserVersion = webConfig.browserVersion();
+        Configuration.browserSize = webConfig.browserSize();
+
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
         RestAssured.baseURI = "https://demoqa.com";
-        Configuration.browser = System.getProperty("browser", "chrome");
-        Configuration.browserVersion = System.getProperty("browser.version", "");
-        Configuration.browserSize = System.getProperty("browser.size", "1920x1080");
 
-        if (System.getProperty("SELENOID_URL") != null &
-                System.getProperty( "SELENOID_LOGIN") != null)
-        {
-            Configuration.remote = "https://" + SELENOID_LOGIN + ":" + SELENOID_PASSWORD + "@" + SELENOID_URL + "/wd/hub";
+        if (webConfig.isRemote()) {
+            Configuration.remote = webConfig.remoteUrl();
+
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setCapability("selenoid:options", Map.<String, Object>of(
-                    "enableVNC", true,
-                    "enableVideo", true
-            ));
+            //capabilities.setCapability("enableVNC", true);
+            //capabilities.setCapability("enableVideo", true);
             Configuration.browserCapabilities = capabilities;
+
+            if (webConfig.remoteUrl() == null || webConfig.remoteUrl().isEmpty()) {
+                throw new IllegalStateException("Remote URL is not configured or is empty");
+            }
         }
     }
     @AfterEach
