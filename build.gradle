@@ -64,36 +64,6 @@ tasks.withType(Test) {
 }
 
 //Через аннотацию @TAG можно конфигурировать список тестов для запуска
-task practiceFormTests(type: Test) {
-    useJUnitPlatform {
-        includeTags("PracticeFormTests")
-    }
-    systemProperties(System.getProperties())
-}
-
-task allureTests(type: Test) {
-    useJUnitPlatform {
-        includeTags("AllureTests")
-    }
-}
-
-task filesTests(type: Test) {
-useJUnitPlatform {
-    includeTags("FilesTests")
-    }
-}
-
-task megaMarketTests(type: Test) {
-    useJUnitPlatform {
-        includeTags("MegaMarketTests")
-    }
-}
-
-task reqresTests(type: Test) {
-    useJUnitPlatform {
-        includeTags("ReqresTests")
-    }
-}
 task bookshop_test(type: Test) {
     useJUnitPlatform {
         includeTags("Bookshop_test")
