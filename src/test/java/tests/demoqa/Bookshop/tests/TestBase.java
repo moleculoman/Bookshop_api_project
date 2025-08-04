@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import tests.demoqa.Bookshop.config.web.WebConfig;
 
+import java.util.Map;
+
 public class TestBase {
     public static final String ALL_BOOKS_END_POINT = "/BookStore/v1/Books";
     public static final String SINGLE_BOOK_END_POINT = "/BookStore/v1/Book";
@@ -32,8 +34,10 @@ public class TestBase {
         if (webConfig.isRemote()) {
             Configuration.remote = webConfig.remoteUrl();
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            //capabilities.setCapability("enableVNC", true);
-            //capabilities.setCapability("enableVideo", true);
+            capabilities.setCapability("selenoid:options", Map.<String, Object>of(
+                    "enableVNC", true,
+                    "enableVideo", true
+            ));
             Configuration.browserCapabilities = capabilities;
             if (webConfig.remoteUrl() == null || webConfig.remoteUrl().isEmpty()) {
                 throw new IllegalStateException("Remote URL is not configured or is empty");
