@@ -1,6 +1,7 @@
 package tests.demoqa.Bookshop.tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -24,6 +25,7 @@ public class TestBase {
 
     @BeforeAll
     public static void beforeAll() {
+        Configuration.timeout = 10000; //доп.настройка, чтоб снизить сетевые проблемы
         Configuration.baseUrl = webConfig.baseUrl();
         Configuration.browser = webConfig.browser().toString();
         Configuration.browserVersion = webConfig.browserVersion();
@@ -52,8 +54,17 @@ public class TestBase {
         Attach.addVideo();
 
     }
+    @AfterEach
+    void closeSession(){
+        WebDriverRunner.getWebDriver().close();
+    }
     @BeforeEach
     void beforeEach(){
         SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
+    @BeforeEach
+    void startSession(){
+        WebDriverRunner.getWebDriver();
     }
 }

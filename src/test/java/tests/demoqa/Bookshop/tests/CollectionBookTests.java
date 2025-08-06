@@ -16,15 +16,32 @@ import static tests.demoqa.Bookshop.api.BooksApi.*;
 import static tests.demoqa.Bookshop.tests.TestData.userId;
 
 @Tag("Bookshop_test")
-@DisplayName("Тесты на удаление книг")
+@DisplayName("Тесты на взаимодействие с коллекцией книг")
 public class CollectionBookTests extends TestBase {
 
+    @Test
+    @DisplayName("Успешное добавление книги в корзину")
+    @WithLogin
+    public void successfulAddBookTest() {
+        IsbnModel isbnModel = new IsbnModel();
+        isbnModel.setIsbn(bookISBN);
+        List<IsbnModel> isbns = List.of(isbnModel);
+
+        AddBooksRequestModel addBookData = new AddBooksRequestModel();
+        addBookData.setUserId(userId);
+        addBookData.setCollectionOfIsbns(isbns);
+
+        step("Очистить корзину", () -> deleteAllBooks());
+        step("Добавить книгу", () -> addBook(addBookData));
+        step("Проверить, что книга отображается в профиле", () ->
+                new ProfilePage().openPage().checkBookIsPresent(bookISBN)
+        );
+    }
+
+    @Test
     @DisplayName("Успешное удаление книги из корзины")
     @WithLogin
-    @Test
-    public void successfullBookRemovalTest() {
-        ProfilePage profilePage = new ProfilePage();
-
+    public void successfulRemoveBookTest() {
         IsbnModel isbn = new IsbnModel();
         isbn.setIsbn(bookISBN);
         List<IsbnModel> isbns = List.of(isbn);
@@ -37,16 +54,37 @@ public class CollectionBookTests extends TestBase {
         deleteBookData.setUserId(userId);
         deleteBookData.setIsbn(bookISBN);
 
-        step("Очистка книг из корзины", () ->
-                deleteAllBooks());
+        step("Очистить корзину", () -> deleteAllBooks());
+        step("Добавить книгу", () -> addBook(addBookData));
+        step("Проверить, что книга отображается в профиле", () ->
+                new ProfilePage().openPage().checkBookIsPresent(bookISBN)
+        );
+        step("Удалить книгу из корзины", () -> deleteBook(deleteBookData));
+        step("Проверить, что корзина пуста после удаления", () -> {
+            new ProfilePage().openPage().checkEmptyTableWithoutBooks();
+        });
+    }
 
-        step("Добавление книги в корзину", () ->
-                addBook(addBookData));
+    @Test
+    @DisplayName("Очистка корзины удаляет все книги")
+    @WithLogin
+    public void clearCartTest() {
+        IsbnModel isbn = new IsbnModel();
+        isbn.setIsbn(bookISBN);
+        List<IsbnModel> isbns = List.of(isbn);
 
-        step("Удаление добавленной книги из корзины", () ->
-                deleteBook(deleteBookData));
+        AddBooksRequestModel addBookData = new AddBooksRequestModel();
+        addBookData.setUserId(userId);
+        addBookData.setCollectionOfIsbns(isbns);
 
-        profilePage.openPage()
-                .checkEmptyTableWithoutBooks();
+        step("Очистить корзину", () -> deleteAllBooks());
+        step("Добавить книгу", () -> addBook(addBookData));
+        step("Проверить, что книга отображается в профиле", () ->
+                new ProfilePage().openPage().checkBookIsPresent(bookISBN)
+        );
+        step("Очистить корзину", () -> deleteAllBooks());
+        step("Проверить, что корзина пуста", () -> {
+            new ProfilePage().openPage().checkEmptyTableWithoutBooks();
+        });
     }
 }
