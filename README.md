@@ -144,7 +144,7 @@ gradle clean bookshop_test -Denv=remote
 </p>
 
 ## <img src="media/logo/Selenoid.svg" width="40" height="40" alt="Selenoid"> Видео с запуском тестов в Selenoid
-
+К каждому тесту в отчете прилагается видео прогона.
 <p align="center">
   <img src="media/screens/Test_Run.gif" width="600" alt="Selenoid Demo">
 </p>
