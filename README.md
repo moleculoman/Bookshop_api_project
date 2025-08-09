@@ -115,7 +115,15 @@ gradle clean bookshop_test -Denv=local
 ### Удаленный запуск (Jenkins)
 
 ```bash
-gradle clean bookshop_test -Denv=remote
+clean
+${TASKS}
+-Denv=remote
+-Dremote.url=${SELENOID_URL}
+-Dremote.login=${SELENOID_LOGIN}
+-Dremote.password=${SELENOID_PASSWORD}
+-Dbrowser=${BROWSER}
+-Dbrowser.version=${BROWSER_VERSION}
+-Dbrowser.size=${BROWSER_SIZE}
 ```
 
 
