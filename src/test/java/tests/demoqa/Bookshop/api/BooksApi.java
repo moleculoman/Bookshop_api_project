@@ -2,6 +2,8 @@ package tests.demoqa.Bookshop.api;
 
 import tests.demoqa.Bookshop.models.AddBooksRequestModel;
 import tests.demoqa.Bookshop.models.DeleteBooksRequestModel;
+import tests.demoqa.Bookshop.models.GetBookRequestModel;
+import tests.demoqa.Bookshop.models.PutBookRequestModel;
 import tests.demoqa.Bookshop.tests.TestData;
 
 import static io.restassured.RestAssured.given;
@@ -36,5 +38,23 @@ public class BooksApi extends TestData {
                 .delete(SINGLE_BOOK_END_POINT)
                 .then()
                 .spec(responseSpec(204));
+    }
+
+
+    public static void getBook(GetBookRequestModel getBookData) {
+        given()
+                .body(getBookData)
+                .when()
+                .get(SINGLE_BOOK_END_POINT)
+                .then()
+                .spec(responseSpec(200));
+    }
+    public static void putBook(PutBookRequestModel putBookData) {
+        given(authRequestSpec(TOKEN))
+                .body(putBookData)
+                .when()
+                .get(ALL_BOOKS_END_POINT)
+                .then()
+                .spec(responseSpec(200));
     }
 }
