@@ -18,11 +18,12 @@ public interface WebConfig extends Config {
     @DefaultValue("1920x1080")
     String browserSize();
     @Key("baseUrl")
+    @DefaultValue("https://demoqa.com/")
     String baseUrl();
     @Key("isRemote")
     @DefaultValue("false")
     boolean isRemote();
     @Key("remoteUrl")
-    //@DefaultValue("https://user1:1234@selenoid.autotests.cloud/wd/hub")
+    @DefaultValue("https://demoqa.com/")
     String remoteUrl();
 }

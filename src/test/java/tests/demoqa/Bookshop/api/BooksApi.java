@@ -1,10 +1,12 @@
 package tests.demoqa.Bookshop.api;
 
-import tests.demoqa.Bookshop.models.AddBooksRequestModel;
-import tests.demoqa.Bookshop.models.DeleteBooksRequestModel;
-import tests.demoqa.Bookshop.models.GetBookRequestModel;
-import tests.demoqa.Bookshop.models.PutBookRequestModel;
+import org.openqa.selenium.json.Json;
+import tests.demoqa.Bookshop.models.*;
 import tests.demoqa.Bookshop.tests.TestData;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static tests.demoqa.Bookshop.specs.BaseSpecs.authRequestSpec;
@@ -14,6 +16,7 @@ import static tests.demoqa.Bookshop.tests.TestBase.SINGLE_BOOK_END_POINT;
 
 
 public class BooksApi extends TestData {
+
     public static void deleteAllBooks() {
         given(authRequestSpec(TOKEN))
                 .when()
@@ -40,21 +43,18 @@ public class BooksApi extends TestData {
                 .spec(responseSpec(204));
     }
 
+    public static void replaceBook(String oldIsbn, String newIsbn) {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("userId", userId);
+        requestBody.put("isbn", newIsbn);
+        String endpoint = ALL_BOOKS_END_POINT + "/" + oldIsbn;
 
-    public static void getBook(GetBookRequestModel getBookData) {
-        given()
-                .body(getBookData)
-                .when()
-                .get(SINGLE_BOOK_END_POINT)
-                .then()
-                .spec(responseSpec(200));
-    }
-    public static void putBook(PutBookRequestModel putBookData) {
         given(authRequestSpec(TOKEN))
-                .body(putBookData)
+                .body(requestBody)
                 .when()
-                .get(ALL_BOOKS_END_POINT)
+                .put(endpoint)
                 .then()
                 .spec(responseSpec(200));
     }
+
 }

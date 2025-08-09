@@ -4,14 +4,15 @@ import helpers.WithLogin;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import tests.demoqa.Bookshop.models.AddBooksRequestModel;
-import tests.demoqa.Bookshop.models.DeleteBooksRequestModel;
-import tests.demoqa.Bookshop.models.IsbnModel;
+import tests.demoqa.Bookshop.models.*;
 import tests.demoqa.Bookshop.pages.ProfilePage;
+import tests.demoqa.Bookshop.specs.BaseSpecs;
 
 import java.util.List;
 
 import static io.qameta.allure.Allure.step;
+import static io.restassured.RestAssured.given;
+
 import static tests.demoqa.Bookshop.api.BooksApi.*;
 import static tests.demoqa.Bookshop.tests.TestData.userId;
 
@@ -86,5 +87,42 @@ public class CollectionBookTests extends TestBase {
         step("Проверить, что корзина пуста", () -> {
             new ProfilePage().openPage().checkEmptyTableWithoutBooks();
         });
+    }
+
+    @Test
+    @DisplayName("Успешная замена книги через PUT-запрос")
+    @WithLogin
+    public void successfulBookReplacementTest() {
+        IsbnModel isbn = new IsbnModel();
+        isbn.setIsbn(bookISBN);
+        List<IsbnModel> isbns = List.of(isbn);
+
+        AddBooksRequestModel addBookData = new AddBooksRequestModel();
+        addBookData.setUserId(userId);
+        addBookData.setCollectionOfIsbns(isbns);
+
+        step("Очистить корзину", () -> deleteAllBooks());
+        step("Добавить книгу", () -> addBook(addBookData));
+        step("Проверить, что книга отображается в профиле", () ->
+                new ProfilePage().openPage().checkBookIsPresent(bookISBN)
+        );
+        step("Заменить книгу", () -> replaceBook(isbn.getIsbn(), "9781593277574"));
+        step("Проверить результат замены", () ->
+                new ProfilePage().openPage().checkBookReplaced(isbn.getIsbn(), "9781593277574")
+        );
+    }
+
+    @Test
+    @DisplayName("Получение полной информации по книге")
+    @WithLogin
+    public void successfulGetInformationAboutBookTest() {
+        step("Отправить GET-запрос и проверить корректность структуры ответа", () ->
+                given()
+                    .queryParam("ISBN", bookISBN)
+                .when()
+                    .get(SINGLE_BOOK_END_POINT)
+                .then()
+                    .spec(BaseSpecs.bookResponseSpec())
+        );
     }
 }

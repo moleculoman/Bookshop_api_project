@@ -14,7 +14,6 @@ public class TestData {
             "9781491904244",
             "9781491950296",
             "9781593275846",
-            "9781593277574",
     };
 
     public static String bookISBN = getRandomValueFromArray(bookISBNArray);

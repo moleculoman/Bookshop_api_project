@@ -15,7 +15,6 @@ import static tests.demoqa.Bookshop.tests.TestData.*;
 public class AuthorizationApi extends BaseSpecs {
     public static LoginResponseModel login() {
         LoginRequestModel authData = new LoginRequestModel(LOGIN, PASSWORD);
-
         //ПЕРЕСОЗДАЕМ ТОКЕН АВТОРИЗАЦИОННЫЙ
         given()
                 .body(authData)
@@ -36,3 +35,4 @@ public class AuthorizationApi extends BaseSpecs {
                         .extract().as(LoginResponseModel.class);
     }
 }
+
