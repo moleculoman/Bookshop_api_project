@@ -110,7 +110,7 @@
 gradle clean bookshop_test -Denv=local 
 ```
 
-### [<img src="media/logo/Jenkins.svg" width="40" height="40" alt="Jenkins"> Удаленный запуск тестов в Jenkins](https://jenkins.autotests.cloud/job/moleculoman_hw/)
+### [<img src="media/logo/Jenkins.svg" width="40" height="40" alt="Jenkins"> Удаленный запуск тестов в Jenkins](https://jenkins.autotests.cloud/job/35-Bookshop_api/)
 
 ```bash
 clean
