@@ -62,9 +62,4 @@ public class TestBase {
     void beforeEach(){
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
-
-    @BeforeEach
-    void startSession(){
-        WebDriverRunner.getWebDriver();
-    }
 }
