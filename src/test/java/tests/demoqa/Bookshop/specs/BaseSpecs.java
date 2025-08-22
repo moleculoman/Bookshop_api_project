@@ -2,7 +2,7 @@ package tests.demoqa.Bookshop.specs;
 
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.specification.*;
-import static helpers.CustomAllureListener.withCustomTemplates;
+import static tests.demoqa.Bookshop.helpers.CustomAllureListener.withCustomTemplates;
 import static io.restassured.RestAssured.with;
 import static io.restassured.filter.log.LogDetail.*;
 import static io.restassured.http.ContentType.*;

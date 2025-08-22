@@ -1,4 +1,4 @@
-package helpers;
+package tests.demoqa.Bookshop.helpers;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 

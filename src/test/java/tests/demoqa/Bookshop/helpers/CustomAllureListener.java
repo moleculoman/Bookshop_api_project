@@ -1,4 +1,4 @@
-package helpers;
+package tests.demoqa.Bookshop.helpers;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 

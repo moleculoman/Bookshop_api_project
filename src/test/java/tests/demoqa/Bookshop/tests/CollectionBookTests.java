@@ -1,6 +1,6 @@
 package tests.demoqa.Bookshop.tests;
 
-import helpers.WithLogin;
+import tests.demoqa.Bookshop.helpers.WithLogin;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -24,13 +24,9 @@ public class CollectionBookTests extends TestBase {
     @DisplayName("Успешное добавление книги в корзину")
     @WithLogin
     public void successfulAddBookTest() {
-        IsbnModel isbnModel = new IsbnModel();
-        isbnModel.setIsbn(bookISBN);
+        IsbnModel isbnModel = new IsbnModel(bookISBN);
         List<IsbnModel> isbns = List.of(isbnModel);
-
-        AddBooksRequestModel addBookData = new AddBooksRequestModel();
-        addBookData.setUserId(userId);
-        addBookData.setCollectionOfIsbns(isbns);
+        AddBooksRequestModel addBookData = new AddBooksRequestModel(userId,isbns);
 
         step("Очистить корзину", () -> deleteAllBooks());
         step("Добавить книгу", () -> addBook(addBookData));
@@ -43,17 +39,11 @@ public class CollectionBookTests extends TestBase {
     @DisplayName("Успешное удаление книги из корзины")
     @WithLogin
     public void successfulRemoveBookTest() {
-        IsbnModel isbn = new IsbnModel();
-        isbn.setIsbn(bookISBN);
+        IsbnModel isbn = new IsbnModel(bookISBN);
         List<IsbnModel> isbns = List.of(isbn);
 
-        AddBooksRequestModel addBookData = new AddBooksRequestModel();
-        addBookData.setUserId(userId);
-        addBookData.setCollectionOfIsbns(isbns);
-
-        DeleteBooksRequestModel deleteBookData = new DeleteBooksRequestModel();
-        deleteBookData.setUserId(userId);
-        deleteBookData.setIsbn(bookISBN);
+        AddBooksRequestModel addBookData = new AddBooksRequestModel(userId,isbns);
+        DeleteBooksRequestModel deleteBookData = new DeleteBooksRequestModel(userId,bookISBN);
 
         step("Очистить корзину", () -> deleteAllBooks());
         step("Добавить книгу", () -> addBook(addBookData));
@@ -70,13 +60,9 @@ public class CollectionBookTests extends TestBase {
     @DisplayName("Очистка корзины удаляет все книги")
     @WithLogin
     public void clearCartTest() {
-        IsbnModel isbn = new IsbnModel();
-        isbn.setIsbn(bookISBN);
+        IsbnModel isbn = new IsbnModel(bookISBN);
         List<IsbnModel> isbns = List.of(isbn);
-
-        AddBooksRequestModel addBookData = new AddBooksRequestModel();
-        addBookData.setUserId(userId);
-        addBookData.setCollectionOfIsbns(isbns);
+        AddBooksRequestModel addBookData = new AddBooksRequestModel(userId,isbns);
 
         step("Очистить корзину", () -> deleteAllBooks());
         step("Добавить книгу", () -> addBook(addBookData));
@@ -93,13 +79,9 @@ public class CollectionBookTests extends TestBase {
     @DisplayName("Успешная замена книги через PUT-запрос")
     @WithLogin
     public void successfulBookReplacementTest() {
-        IsbnModel isbn = new IsbnModel();
-        isbn.setIsbn(bookISBN);
+        IsbnModel isbn = new IsbnModel(bookISBN);
         List<IsbnModel> isbns = List.of(isbn);
-
-        AddBooksRequestModel addBookData = new AddBooksRequestModel();
-        addBookData.setUserId(userId);
-        addBookData.setCollectionOfIsbns(isbns);
+        AddBooksRequestModel addBookData = new AddBooksRequestModel(userId,isbns);
 
         step("Очистить корзину", () -> deleteAllBooks());
         step("Добавить книгу", () -> addBook(addBookData));
